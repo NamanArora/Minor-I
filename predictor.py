@@ -7,12 +7,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import re
 from sklearn import linear_model
+import numpy as np
 
 ##Linear regression
 times=[]
 price=[]
 
-def predict_linear_regression(dates,prices,x):
+def predict_linear_regression(times,prices,target):
+    linear_mod = linear_model.LinearRegression()
+    x = np.transpose(np.matrix(times))
+    y = np.transpose(np.matrix(price))
+    linear_mod.fit(x,y)
+    predicted_price = linear_mod.predict(target)
+    return predicted_price[0][0]
     
 
 def gen_path(sharename,base_dir='data'):
@@ -21,9 +28,12 @@ def gen_path(sharename,base_dir='data'):
     return path
 
 
-def convert_to_secs(time_d):
+def convert_to_secs(time_d, show=False):
     times = map(int, re.split(r"[:,]", time_d))
-    return times[0]*3600+ times[1]*60
+    sum= times[0]*3600+ times[1]*60
+    if show:
+        print sum
+    return sum
 
 def get_data(sharename):
     path=gen_path(sharename)
@@ -36,4 +46,7 @@ def get_data(sharename):
 
 
 sharename = raw_input("Enter share name: ")
+time = raw_input("Enter the time at which you want to predict: ")
+
 get_data(sharename)
+print predict_linear_regression(times,price,convert_to_secs(time,True))
