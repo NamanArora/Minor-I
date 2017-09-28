@@ -20,11 +20,20 @@ def predict_linear_regression(times,prices,target):
     linear_mod.fit(x,y)
     predicted_price = linear_mod.predict(target)
     return predicted_price[0][0]
+
+def calc_mean_error():
+    a=[]
+    
+    for time in times:
+        a.append(predict_linear_regression(times,price,time))
+    pred = np.array(a)
+    actual = np.array(price)
+    diff= np.subtract(actual,pred)
+    return np.mean(diff)
     
 
 def gen_path(sharename,base_dir='data'):
     path=os.path.join(base_dir,'{}.csv'.format(str(sharename)))
-    print path
     return path
 
 
@@ -45,8 +54,10 @@ def get_data(sharename):
             price.append(float(row[1]))
 
 
-sharename = raw_input("Enter share name: ")
-time = raw_input("Enter the time at which you want to predict: ")
-
+#sharename = raw_input("Enter share name: ")
+#time = raw_input("Enter the time at which you want to predict: ")
+sharename='Ashok Leyland Ltd'
+time='16:29'
 get_data(sharename)
-print predict_linear_regression(times,price,convert_to_secs(time,True))
+# print predict_linear_regression(times,price,convert_to_secs(time))
+print calc_mean_error()
