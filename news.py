@@ -1,6 +1,25 @@
 from bs4 import BeautifulSoup
 import requests
+import string
+import os
+import csv
+import re
 
+good_dict=[]
+bad_dict=[]
+
+def gen_path(file_name,base_dir='data'):
+    path=os.path.join(base_dir,'{}.csv'.format(str(file_name)))
+    return path
+
+def fill_dict():
+    path=gen_path('dictionary')
+    with open(path,'r') as file:
+        file_reader = csv.reader(file)
+        next(file_reader)
+        for row in file_reader:
+            good_dict.append(row[0])
+            bad_dict.append(row[1])
 
 
 def f1(b,j):
@@ -18,9 +37,7 @@ l1=[]
 
 
 v=0
-if(a=="Tata Consultancy Services Ltd"):
-    v=13020033
-elif(a=="Mahindra Mahindra Financial Services Ltd"):
+if(a=="Mahindra Mahindra Financial Services Ltd"):
     v=10520003.14
 elif(a=="Kotak Mahindra Bank Ltd"):
     v=14060005
@@ -48,12 +65,37 @@ print d
 
 
 
-
+news=[]
 u="http://money.rediff.com/companies/%s/%f?srchword=%s.&snssrc=sugg" %(c,v,d)
 page = requests.get(u) 
 soup = BeautifulSoup(page.content, "lxml")
 for q in soup.find_all('a',target='_jbpinter',rel='nofollow'):
+    news.append(q.text)
     print q.text
+
+score =0
+fill_dict()
+for i in news:
+    t=i.split(' ')
+    for word in good_dict:
+        if word in t:
+            score = score +1
+            print 'good='+word
+    for word in bad_dict:
+        if word in t:
+            score = score -1
+            print 'bad='+word
+
+
+if score == 0:
+    print 'Prediction: Your stock will remain stable'
+elif score>0:
+    print 'Prediction: Your stock will rise'
+elif score<0:
+    print 'Prediction: Your stock will fall'
+
+
+
 
 
 
