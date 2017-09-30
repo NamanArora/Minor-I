@@ -21,6 +21,14 @@ def predict_linear_regression(times,prices,target):
     predicted_price = linear_mod.predict(target)
     return predicted_price[0][0]
 
+def predict_bae_regression(times,prices,target):
+    linear_mod = linear_model.BayesianRidge()
+    x = np.transpose(np.matrix(times))
+    y = np.transpose(np.matrix(price))
+    linear_mod.fit(x,y)
+    predicted_price = linear_mod.predict(target)
+    return predicted_price[0]
+
 def calc_mean_error():
     a=[]
     
@@ -59,5 +67,6 @@ def get_data(sharename):
 sharename='Ashok Leyland Ltd'
 time='16:29'
 get_data(sharename)
-# print predict_linear_regression(times,price,convert_to_secs(time))
-print calc_mean_error()
+print predict_bae_regression(times,price,convert_to_secs(time))
+print predict_linear_regression(times,price,convert_to_secs(time))
+#print calc_mean_error()
