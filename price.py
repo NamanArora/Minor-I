@@ -18,9 +18,7 @@ def crawl(a):
     d=a
     l1=[]
     v=0
-    if(a=="Tata Consultancy Services Ltd"):
-        v=13020033
-    elif(a=="Mahindra Mahindra Financial Services Ltd"):
+    if(a=="Mahindra Mahindra Financial Services Ltd"):
         v=10520003.14
     elif(a=="Kotak Mahindra Bank Ltd"):
         v=14060005
