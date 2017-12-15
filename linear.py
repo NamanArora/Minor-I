@@ -39,9 +39,7 @@ def calc_mean_error():
     diff= np.subtract(actual,pred)
     div=np.divide(diff,actual)
     mean= np.mean(div)
-    print " "
-    print"Error in calculating the Predicted Value in %: "
-    print mean*100
+    return mean*100
     
 def convert_to_secs(time_d, show=False):
     times = map(int, re.split(r"[:,]", time_d))
@@ -61,17 +59,11 @@ def get_data(sharename):
             price.append(float(row[1]))
 
 
-def linereg(sharename):
+def linereg(sharename, time):
     get_data(sharename)
-    print" "
-    print "Enter The Time for Which Price Has To Be Predicted: "
-    time=raw_input()
-    print " "
-    print " Predicted Value Through Linear Regression is: "
-    print predict_linear_regression(times,price,convert_to_secs(time))
-   
-    calc_mean_error()
-    
+    p_val =  predict_linear_regression(times,price,convert_to_secs(time))
+    mean = calc_mean_error()
+    return p_val, mean
 
 
 

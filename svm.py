@@ -39,9 +39,7 @@ def calc_mean_error():
     diff= np.subtract(actual,pred)
     div=np.divide(diff,actual)
     mean= np.mean(div)
-    print " "
-    print"Error in calculating the Predicted Value: "
-    print mean
+    return  mean
 
 
 def predict_price(times,prices,target):
@@ -57,15 +55,12 @@ def predict_price(times,prices,target):
 	
 	return svr_rbf.predict(target)[0]
 
-def svmalgo(sharename):
+def svmalgo(sharename,time):
 
     get_data(sharename)
-    print " "
-    time=raw_input("Enter The Time For Which Price Has To Be Predicted: ")
     predicted_price = predict_price(times, price, convert_to_secs(time))
-    print " "
-    print "RBF kernel: $", str(predicted_price)
-    calc_mean_error()
+    return str(predicted_price),calc_mean_error()
+    
 
     
     

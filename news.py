@@ -77,13 +77,13 @@ def head(sharename,v):
                 score = score -1
                 print 'bad='+word
 
-
+    
     if score == 0:
-        print 'Prediction: Your stock will remain stable'
+        return 'STABLE'
     elif score>0:
-        print 'Prediction: Your stock will rise'
+        return 'RISE'
     elif score<0:
-        print 'Prediction: Your stock will fall'
+        return 'FALL'
 
 score= 0
 news=[]
